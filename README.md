@@ -12,6 +12,65 @@ To run:
 bun run index.ts
 ```
 
+## VS Code MCP configuration
+
+To use this server from VS Code, add an MCP server entry to your MCP settings (for example in a user/workspace `settings.json` depending on how you manage MCP servers).
+
+Example configuration (JSONL backend):
+
+```json
+{
+	"inputs": [
+		{
+			"type": "promptString",
+			"id": "memory-file-path",
+			"description": "Path to memory.jsonl (optional)",
+			"password": false
+		}
+	],
+	"servers": {
+		"remote-memory": {
+			"type": "stdio",
+			"command": "bunx",
+			"args": ["github:thiskevinwang/2026-01-14-mcp-remote-memory#7096e03"],
+			"env": {
+				"MEMORY_STORAGE_BACKEND": "jsonl",
+				"MEMORY_FILE_PATH": "${input:memory-file-path}"
+			}
+		}
+	}
+}
+```
+
+Example configuration (Postgres backend):
+
+```json
+{
+	"inputs": [
+		{
+			"type": "promptString",
+			"id": "postgres-connection-string-v1",
+			"description": "Postgres connection string",
+			"password": true
+		}
+	],
+	"servers": {
+		"remote-memory": {
+			"type": "stdio",
+			"command": "bun",
+			"args": ["github:thiskevinwang/2026-01-14-mcp-remote-memory#7096e03"],
+			"env": {
+				"MEMORY_STORAGE_BACKEND": "postgres",
+				"POSTGRES_CONNECTION_STRING": "${input:postgres-connection-string-v1}"
+			}
+		}
+	}
+}
+```
+
+> [!TIP]
+> Increment `postgres-connection-string-v1` to `v2` and restart the MCP server to force VSCode to re-prompt for the connection string.
+
 ## Storage backends
 
 This MCP server supports multiple storage backends via a small plugin/registry.
