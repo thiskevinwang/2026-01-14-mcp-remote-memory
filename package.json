@@ -1,6 +1,8 @@
 {
   "name": "2026-01-14-mcp-remote-memory",
-  "bin": "index.ts",
+  "bin": {
+    "mcp-remote-memory": "index.ts"
+  },
   "module": "index.ts",
   "type": "module",
   "private": true,
